@@ -4,15 +4,13 @@ import java.util.HashMap;
 
 public class ContentMap {
 	
-	private static HashMap<String, SimulatedResource> contentMap = new HashMap<>();
-	
-	public static HashMap<String, SimulatedResource> getContentMap() {
+	public static HashMap<String, Integer> getContentMap() {
+		
+		HashMap<String, Integer> contentMap = new HashMap<>();
 		String[] contents = Variables.getContents();
-		Double[] values = Variables.getValues();
-		int i = 0;
+		
 		for(String s : contents) {
-			contentMap.put(s, new SimulatedResource(0, values[i]));
-			i++;
+			contentMap.put(s, 0);
 		}
 		return contentMap;
 	}
