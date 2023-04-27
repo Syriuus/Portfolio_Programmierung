@@ -1,0 +1,12 @@
+jeder produzent produziert 2 Produkte 
+jeder konsument kauft nur ein Produkt -> pro konsument anders
+configuration eventuell aus json datei oder so -> hoffentlich yaml
+
+aus der config:
+	- wer was herstellt oder anfordert -> Verfügbare Optionen sind fix
+	
+	objekt das produkt, produzent, menge und preis enthält
+	
+	setzbare menge die versucht wird zu kaufen -> wenn zu wenig da wir alles was geht gekauft
+	bei dem markt wird immer das günstigste Zuerst gekauft
+	
