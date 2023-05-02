@@ -46,5 +46,12 @@ public class SimulatedResource {
 		Double percentage = random.nextDouble(-1, 1)/100;
 		value += (value*percentage);
 	}
+
+	@Override
+	public String toString() {
+		return "SimulatedResource [name=" + name + ", producer=" + producer + ", count=" + count + ", value=" + value
+				+ "]";
+	}
+	
 	
 }

@@ -3,9 +3,23 @@ package akteure;
 import java.util.HashMap;
 import java.util.Random;
 
+import util.SimulatedResource;
 import util.Variables;
 
-public class Rohstofflieferant implements Runnable{
+public class Rohstofflieferant implements Runnable {
+	
+	private String name;
+	
+	public Rohstofflieferant(String name) {
+		this.name = name;
+		
+		int count = 0;
+		for(String resource : Variables.getResources()) {
+			Double price = Variables.getValues()[count];
+			Marketplace.getMarketplace().initResources(new SimulatedResource(resource, name, 0, price));
+			count++;
+		}
+	}
 
 	@Override
 	public void run() {
@@ -20,6 +34,8 @@ public class Rohstofflieferant implements Runnable{
 			int randomResourceCount = random.nextInt(5, 10);
 			returnMap.put(resources[randomResource], randomResourceCount);
 		}
-		marketplace.put(returnMap);
+		for(String s : returnMap.keySet()) {
+			marketplace.put(s, name, returnMap.get(s));
+		}
 	}
 }
