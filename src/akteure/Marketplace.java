@@ -49,11 +49,11 @@ public class Marketplace {
 		ArrayList<SimulatedResource> possibleMatchesUnsorted = new ArrayList<>();
 		ArrayList<SimulatedResource> possibleMatchesSorted = new ArrayList<>();
 		ArrayList<Double> priceSortingList = new ArrayList<>();
-		Integer counter = 0;
-		Integer returnResourcesCounter = 0;
+		int counter = 0;
+		int returnResourcesCounter = 0;
 		
 		for(SimulatedResource r : contents) {
-			if(r.getName() == product && r.getValue() <= price) {
+			if(r.getName() == product && r.getValue() <= price + 1000) {
 				possibleMatchesUnsorted.add(r);
 			}
 		}
@@ -96,6 +96,12 @@ public class Marketplace {
 			}
 		}
 		return prices;
+	}
+	
+	public void updatePrices() {
+		for(SimulatedResource r : contents) {
+			r.updateValue();
+		}
 	}
 	
 	public void print() {

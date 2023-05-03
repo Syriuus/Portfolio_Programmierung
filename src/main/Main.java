@@ -35,27 +35,35 @@ public class Main {
 		addSupplier();
 		addConsumer();
 		int numberOfThreads = producerList.size() + supplierList.size() + consumerList.size();
-		ExecutorService threadPool = Executors.newFixedThreadPool(numberOfThreads);
 		
-		Produzent producerPool[] = new Produzent[producerList.size()];
-		for(int i = 0; i < producerList.size(); i++) {
-			producerPool[i] = producerList.get(i);
-			threadPool.execute(producerPool[i]);
-		}	
-		
-		Rohstofflieferant supplierPool[] = new Rohstofflieferant[supplierList.size()];
-		for(int i = 0; i < supplierList.size(); i++) {
-			supplierPool[i] = supplierList.get(i);
-			threadPool.execute(supplierPool[i]);
+		for(int k = 0; k < 10; k++) {
+			ExecutorService threadPool = Executors.newFixedThreadPool(numberOfThreads);
+			
+			Produzent producerPool[] = new Produzent[producerList.size()];
+			for(int i = 0; i < producerList.size(); i++) {
+				producerPool[i] = producerList.get(i);
+				threadPool.execute(producerPool[i]);
+			}	
+			
+			Rohstofflieferant supplierPool[] = new Rohstofflieferant[supplierList.size()];
+			for(int i = 0; i < supplierList.size(); i++) {
+				supplierPool[i] = supplierList.get(i);
+				threadPool.execute(supplierPool[i]);
+			}
+			
+			Konsument consumerPool[] = new Konsument[consumerList.size()];
+			for(int i = 0; i < consumerList.size(); i++) {
+				consumerPool[i] = consumerList.get(i);
+				threadPool.execute(consumerPool[i]);
+			}
+			threadPool.shutdown();
+			threadPool.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+			System.out.println("------------");
+			Marketplace m = Marketplace.getMarketplace();
+			m.updatePrices();
+			m.print();
 		}
 		
-		Konsument consumerPool[] = new Konsument[consumerList.size()];
-		for(int i = 0; i < consumerList.size(); i++) {
-			consumerPool[i] = consumerList.get(i);
-			threadPool.execute(consumerPool[i]);
-		}
-		threadPool.shutdown();
-		threadPool.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
 		
 	
 		
@@ -65,8 +73,7 @@ public class Main {
 		
 		
 		
-		Marketplace m = Marketplace.getMarketplace();
-		m.print();
+		
 	}
 	
 	private static void addProducer() {

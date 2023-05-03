@@ -23,7 +23,9 @@ public class Produzent implements Runnable {
 	private String name;
 	private String product1;
 	private String product2;
-	private Integer wantedProductCount = 100000;
+	private Integer wantedProductCount = 3000;
+	private String[] recipe1;
+	private String[] recipe2;
 	
 	public Produzent(String name, String product1, String product2) {
 		this.name = name;
@@ -34,9 +36,24 @@ public class Produzent implements Runnable {
 		marketplace = Marketplace.getMarketplace();
 		initPrices();
 		
+		recipe1 = Variables.getRecipe(product1);
+		recipe2 = Variables.getRecipe(product2);
+		for(String s : recipe1) {
+			if(!desiredResources.contains(s)) {
+				desiredResources.add(s);
+			}
+		}
+		for(String s : recipe2) {
+			if(!desiredResources.contains(s)) {
+				desiredResources.add(s);
+			}
+		}
+		
+		
 	
 		for(String s : Variables.getContents()) {
-			inventory.put(s, 0);
+			int i = 0;
+			inventory.put(s, i);
 		}
 
 		int count = 0;
@@ -62,35 +79,42 @@ public class Produzent implements Runnable {
 	
 	@Override
 	public void run() {
-		produce();
+		tryToGetResources(desiredResources);
+		produce(product1, recipe1);
+		produce(product2, recipe2);
 		updatePrices();
 	}
 	
-	private void produce() {
-		String[] recipe1 = Variables.getRecipe(product1);
-		String[] recipe2 = Variables.getRecipe(product2);
-		for(String s : recipe1) {
-			desiredResources.add(s);
-		}
-		for(String s : recipe2) {
-			desiredResources.add(s);
-		}
-		tryToGetResources(desiredResources);
-	}
+	
 	
 	private void tryToGetResources(ArrayList<String> resources) {
 		for(String resource : resources) {
-			//check price then get -> doppelte absicherung weil das produkt in der zeit schon weg sein kann
-		
-			Integer count = marketplace.get(name, resource, prices.get(resource), wantedProductCount);
-			inventory.put(resource, inventory.get(resource) + count);
+			int count = marketplace.get(name, resource, prices.get(resource), wantedProductCount);
 			if(count != 0) {
 				logger.info(name + " put " + count + " " + resource + " in their inventory");
+				inventory.put(resource, inventory.get(resource) + count);
 			}
 		}
 	}
 	
-	
+	private void produce(String product, String[] recipe) {
+		int smallestNumberOfResource = 1000000;
+		for(String s : recipe) {
+			int numberOfResource = inventory.get(s);
+			if(smallestNumberOfResource > numberOfResource) {
+				smallestNumberOfResource = numberOfResource;
+			}
+		}
+		
+		if(smallestNumberOfResource != 0) {
+			
+			for(String s: recipe) {
+				inventory.put(s, inventory.get(s) - smallestNumberOfResource);
+			}
+			marketplace.put(product, name, smallestNumberOfResource);
+		}
+		
+	}
 	
 	private void initPrices() {
 		int counter = 0;

@@ -9,14 +9,16 @@ import util.Variables;
 public class Rohstofflieferant implements Runnable {
 	
 	private String name;
+	private Marketplace marketplace;
 	
 	public Rohstofflieferant(String name) {
 		this.name = name;
+		marketplace = Marketplace.getMarketplace();
 		
 		int count = 0;
 		for(String resource : Variables.getResources()) {
 			Double price = Variables.getValues()[count];
-			Marketplace.getMarketplace().initResources(new SimulatedResource(resource, name, 0, price));
+			marketplace.initResources(new SimulatedResource(resource, name, 0, price));
 			count++;
 		}
 	}
@@ -26,7 +28,7 @@ public class Rohstofflieferant implements Runnable {
 		
 		String[] resources = Variables.getResources();
 		Random random = new Random();
-		Marketplace marketplace = Marketplace.getMarketplace();
+		
 		HashMap<String, Integer> returnMap = new HashMap<>();
 		
 		while(returnMap.size() < 2) { // Sucht 2 Random Resourcen aus und gibt davon 5 bis 10 aus

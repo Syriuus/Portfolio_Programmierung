@@ -16,6 +16,7 @@ public class SimulatedResource {
 		this.producer = producer;
 		this.count = count;
 		this.value = value;
+		this.random = new Random();
 	}
 
 	public String getName() {
