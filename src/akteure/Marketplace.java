@@ -50,6 +50,7 @@ public class Marketplace {
 		int counter = 0;
 		
 		for(SimulatedResource r : contents) {
+			// macht faxxen der Kek
 			if(r.getName() == product && r.getValue() <= price + 1000) {
 				possibleMatchesUnsorted.add(r);
 			}
