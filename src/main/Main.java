@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import akteure.Konsument;
 import akteure.Marketplace;
 import akteure.Produzent;
 import akteure.Rohstofflieferant;
+import util.SimulatedResource;
 import util.Variables;
 
 public class Main {
 	
-	private static Logger logger;
 	private static ArrayList<Produzent> producerList = new ArrayList<>();
 	private static ArrayList<Rohstofflieferant> supplierList = new ArrayList<>();
 	private static ArrayList<Konsument> consumerList = new ArrayList<>();
@@ -24,10 +21,6 @@ public class Main {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		logger.setLevel(Level.ALL);
-		logger.setUseParentHandlers(false);
-		logger.addHandler(new ConsoleHandler());
 		
 		Variables.initRecipe();
 		
@@ -58,10 +51,16 @@ public class Main {
 			}
 			threadPool.shutdown();
 			threadPool.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
-			System.out.println("------------");
+			
 			Marketplace m = Marketplace.getMarketplace();
 			m.updatePrices();
-			m.print();
+			
+			System.out.println("-------------------");
+			System.out.println("Marketplace inventory");
+			for(SimulatedResource r : m.getContents()) {
+				System.out.println(r);
+			}
+			System.out.println("-------------------");
 		}
 		
 		
@@ -92,8 +91,5 @@ public class Main {
 		consumerList.add(new Konsument("Karin", "Axt"));
 		consumerList.add(new Konsument("Dennis", "Ofen"));
 		consumerList.add(new Konsument("Bruno", "Ofen"));
-	}
-	public static Logger getLogger() {
-		return logger;
 	}
 }

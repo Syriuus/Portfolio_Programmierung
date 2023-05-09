@@ -1,10 +1,10 @@
 package akteure;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.logging.Logger;
 
-import main.Main;
+import util.SimulatedResource;
 import util.Variables;
 
 public class Konsument implements Runnable {
@@ -13,7 +13,6 @@ public class Konsument implements Runnable {
 	private Random random = new Random();
 	
 	private Marketplace marketplace;
-	private Logger logger;
 	
 	private String name;
 	private String product;
@@ -24,7 +23,6 @@ public class Konsument implements Runnable {
 		this.product = product;
 		
 		marketplace = Marketplace.getMarketplace();
-		this.logger = Main.getLogger();
 		initPrices();
 	}
 	
@@ -36,10 +34,12 @@ public class Konsument implements Runnable {
 	}
 	
 	private void buy() {
-		wantedProductCount = random.nextInt(3, 5);
-		Integer count = marketplace.get(name, product, prices.get(product), wantedProductCount);
-		if(count != 0) {
-			logger.info(name + " put " + count + " " + product + " in their inventory");
+		wantedProductCount = Variables.getConsumerWantedProductCount();
+		ArrayList<SimulatedResource> resourceList = marketplace.get(name, product, prices.get(product), wantedProductCount);
+		for(SimulatedResource r : resourceList) {
+			if(r.getCount() != 0) {
+				System.out.println("\u001B[36m" + name + " bought " + r.getCount() + " " + r.getName() + " from " + r.getProducer() + " for " + r.getValue() + " each" + "\u001B[0m");
+			}
 		}
 		
 	}

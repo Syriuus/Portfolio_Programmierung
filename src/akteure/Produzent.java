@@ -3,9 +3,7 @@ package akteure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.logging.Logger;
 
-import main.Main;
 import util.SimulatedResource;
 import util.Variables;
 
@@ -18,12 +16,11 @@ public class Produzent implements Runnable {
 	private Random random = new Random();
 	
 	private Marketplace marketplace;
-	private Logger logger;
 	
 	private String name;
 	private String product1;
 	private String product2;
-	private Integer wantedProductCount = 3000;
+	private Integer wantedProductCount = Variables.getProducerWantedProductCount();
 	private String[] recipe1;
 	private String[] recipe2;
 	
@@ -32,7 +29,6 @@ public class Produzent implements Runnable {
 		this.product1 = product1;
 		this.product2 = product2;
 		
-		logger = Main.getLogger();
 		marketplace = Marketplace.getMarketplace();
 		initPrices();
 		
@@ -89,10 +85,12 @@ public class Produzent implements Runnable {
 	
 	private void tryToGetResources(ArrayList<String> resources) {
 		for(String resource : resources) {
-			int count = marketplace.get(name, resource, prices.get(resource), wantedProductCount);
-			if(count != 0) {
-				logger.info(name + " put " + count + " " + resource + " in their inventory");
-				inventory.put(resource, inventory.get(resource) + count);
+			ArrayList<SimulatedResource> resourceList = marketplace.get(name, resource, prices.get(resource), wantedProductCount);
+			for(SimulatedResource r : resourceList) {
+				if(r.getCount() != 0) {
+					System.out.println("\u001B[31m" + name + " bought " + r.getCount() + " " + resource + " from " + r.getProducer() + " for " + r.getValue() + " each" + "\u001B[0m");
+					inventory.put(resource, inventory.get(resource) + r.getCount());
+				}
 			}
 		}
 	}

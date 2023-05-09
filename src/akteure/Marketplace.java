@@ -3,31 +3,28 @@ package akteure;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
-import main.Main;
 import util.SimulatedResource;
 
 public class Marketplace {
 	
 	private static Marketplace INSTANCE;
 	private static ArrayList<SimulatedResource> contents;
-	private static Logger logger;
 	
 	
 	private Marketplace() {
 		contents = new ArrayList<>();
-		logger = Main.getLogger();
 	}
 	
 	public static Marketplace getMarketplace() { // Singletoninstanz erstellung
 		if(INSTANCE == null) {
 			INSTANCE = new Marketplace();
-			logger.info("Marketplace has been created");
+			System.out.println("Marketplace has been created");
 		}
 		return INSTANCE;
 	}
 	
+	// vllt noch zu int return typ damit man sysout produzent und rohstofflieferant unterscheiden kann
 	public synchronized void put(String productName, String producer, Integer count) {  //Bearbeitet das Objekt mit dem Eintrag key und addet den Count
 		ArrayList<SimulatedResource> productList = new ArrayList<>();
 		for(SimulatedResource resource : contents) {
@@ -38,19 +35,19 @@ public class Marketplace {
 		for(SimulatedResource resource : productList) {
 			if(resource.getProducer() == producer) {
 				resource.addCount(count);
-				logger.info(producer + " added " + count + " " + productName + " to the marketplace");
+				System.out.println("\u001B[32m" + producer + " added " + count + " " + productName + " to the marketplace" + "\u001B[0m");
 			}
 		}
 		productList.clear();
 	}
 	
-	public synchronized Integer get(String producer, String product, Double price, Integer count) {
+	public synchronized ArrayList<SimulatedResource> get(String producer, String product, Double price, Integer count) {
 		
 		ArrayList<SimulatedResource> possibleMatchesUnsorted = new ArrayList<>();
 		ArrayList<SimulatedResource> possibleMatchesSorted = new ArrayList<>();
 		ArrayList<Double> priceSortingList = new ArrayList<>();
+		ArrayList<SimulatedResource> returnList = new ArrayList<>();
 		int counter = 0;
-		int returnResourcesCounter = 0;
 		
 		for(SimulatedResource r : contents) {
 			if(r.getName() == product && r.getValue() <= price + 1000) {
@@ -67,21 +64,22 @@ public class Marketplace {
 				possibleMatchesSorted.add(r);
 			}
 		}
+		// wenn nichts gekauft wird dann sagen warum z.B. preis is hoch oder keine Produkte vorhanden
 		for(SimulatedResource r : possibleMatchesSorted) {
 			int neededResourceCount = count;
-			if(returnResourcesCounter != count) {
+			if(returnList.size() != count) {
 				if(r.getCount() >= neededResourceCount) {
-					returnResourcesCounter += neededResourceCount;
+					returnList.add(new SimulatedResource(r.getName(), r.getProducer(), neededResourceCount, r.getValue()));
 					neededResourceCount -= neededResourceCount;
 					r.subtractCount(neededResourceCount);
 				} else {
-					returnResourcesCounter += r.getCount();
+					returnList.add(new SimulatedResource(r.getName(), r.getProducer(), r.getCount(), r.getValue()));
 					neededResourceCount -= r.getCount();
 					r.subtractCount(r.getCount());
 				}
 			}
 		}
-		return returnResourcesCounter;
+		return returnList;
 	}
 	
 	public void initResources(SimulatedResource r) {
@@ -104,7 +102,7 @@ public class Marketplace {
 		}
 	}
 	
-	public void print() {
-		System.out.println(contents);
+	public ArrayList<SimulatedResource> getContents() {
+		return contents;
 	}
 }

@@ -50,8 +50,7 @@ public class SimulatedResource {
 
 	@Override
 	public String toString() {
-		return "SimulatedResource [name=" + name + ", producer=" + producer + ", count=" + count + ", value=" + value
-				+ "]";
+		return "Name=" + name + ", Producer=" + producer + ", Count=" + count + ", Value=" + value;
 	}
 	
 	

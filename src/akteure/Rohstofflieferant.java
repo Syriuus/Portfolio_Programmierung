@@ -31,9 +31,9 @@ public class Rohstofflieferant implements Runnable {
 		
 		HashMap<String, Integer> returnMap = new HashMap<>();
 		
-		while(returnMap.size() < 2) { // Sucht 2 Random Resourcen aus und gibt davon 5 bis 10 aus
+		while(returnMap.size() < 2) {
 			int randomResource = random.nextInt(resources.length);
-			int randomResourceCount = random.nextInt(5, 10);
+			int randomResourceCount = Variables.getMaterialSupplyCount();
 			returnMap.put(resources[randomResource], randomResourceCount);
 		}
 		for(String s : returnMap.keySet()) {
