@@ -76,9 +76,9 @@ public class Main {
 	}
 	
 	private static void addProducer() {
-		producerList.add(new Produzent("Charlie", "Axt", "Ofen"));
-		producerList.add(new Produzent("Oli", "Axt", "Ofen"));
-		producerList.add(new Produzent("Gregor", "Axt", "Ofen"));
+		producerList.add(new Produzent("Charlie", "axe", "oven"));
+		producerList.add(new Produzent("Oli", "axe", "oven"));
+		producerList.add(new Produzent("Gregor", "axe", "oven"));
 	}
 	
 	private static void addSupplier() {
@@ -88,8 +88,8 @@ public class Main {
 	}
 	
 	private static void addConsumer() {
-		consumerList.add(new Konsument("Karin", "Axt"));
-		consumerList.add(new Konsument("Dennis", "Ofen"));
-		consumerList.add(new Konsument("Bruno", "Ofen"));
+		consumerList.add(new Konsument("Karin", "axe"));
+		consumerList.add(new Konsument("Dennis", "oven"));
+		consumerList.add(new Konsument("Bruno", "oven"));
 	}
 }

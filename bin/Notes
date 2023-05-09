@@ -1,5 +1,6 @@
 todo:
-	-Produzenten müssen eingekaufte produkte noch verarbeiten und auf den markt packen // gemacht
-	-Loop/ momentan nur 1 Zeiteinheit möglich // hoffentlich done
+	- Konsumenten kaufen jeweils von verschiendenen Produzenten -> falls nicht gefixt feature!
+	- Marketplace inventpory Value output runden
 	- Kommentare zum Code
-	- Logger output anpassen
+	- on startup check if Variables are correct -> resources are in contents usw.
+	- inventory output anpassen
