@@ -88,7 +88,7 @@ public class Produzent implements Runnable {
 			ArrayList<SimulatedResource> resourceList = marketplace.get(name, resource, prices.get(resource), wantedProductCount);
 			for(SimulatedResource r : resourceList) {
 				if(r.getCount() != 0) {
-					System.out.println("\u001B[31m" + name + " bought " + r.getCount() + " " + resource + " from " + r.getProducer() + " for " + r.getValue() + " each" + "\u001B[0m");
+					System.out.println("\u001B[31m" + name + " bought " + r.getCount() + " " + resource + " from " + r.getProducer() + " for " + String.format("%.2f", r.getValue()) + " each" + "\u001B[0m");
 					inventory.put(resource, inventory.get(resource) + r.getCount());
 				}
 			}

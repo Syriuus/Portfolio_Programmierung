@@ -68,7 +68,7 @@ public class Marketplace {
 		// wenn nichts gekauft wird dann sagen warum z.B. preis is hoch oder keine Produkte vorhanden
 		for(SimulatedResource r : possibleMatchesSorted) {
 			int neededResourceCount = count;
-			if(returnList.size() != count) {
+			if(neededResourceCount != 0) {
 				if(r.getCount() >= neededResourceCount) {
 					returnList.add(new SimulatedResource(r.getName(), r.getProducer(), neededResourceCount, r.getValue()));
 					neededResourceCount -= neededResourceCount;

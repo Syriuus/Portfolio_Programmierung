@@ -1,6 +1,4 @@
 todo:
-	- Konsumenten kaufen jeweils von verschiendenen Produzenten -> falls nicht gefixt feature!
-	- Marketplace inventpory Value output runden
 	- Kommentare zum Code
 	- on startup check if Variables are correct -> resources are in contents usw.
-	- inventory output anpassen
+	- vllt marketplaceinventory nach name sortieren

@@ -50,7 +50,7 @@ public class SimulatedResource {
 
 	@Override
 	public String toString() {
-		return "Name=" + name + ", Producer=" + producer + ", Count=" + count + ", Value=" + value;
+		return "Name=" + name + ", Producer=" + producer + ", Count=" + count + ", Value=" + String.format("%.2f", value);
 	}
 	
 	

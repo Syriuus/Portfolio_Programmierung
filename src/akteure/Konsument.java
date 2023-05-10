@@ -38,7 +38,7 @@ public class Konsument implements Runnable {
 		ArrayList<SimulatedResource> resourceList = marketplace.get(name, product, prices.get(product), wantedProductCount);
 		for(SimulatedResource r : resourceList) {
 			if(r.getCount() != 0) {
-				System.out.println("\u001B[36m" + name + " bought " + r.getCount() + " " + r.getName() + " from " + r.getProducer() + " for " + r.getValue() + " each" + "\u001B[0m");
+				System.out.println("\u001B[36m" + name + " bought " + r.getCount() + " " + r.getName() + " from " + r.getProducer() + " for " +String.format("%.2f", r.getValue()) + " each" + "\u001B[0m");
 			}
 		}
 		
