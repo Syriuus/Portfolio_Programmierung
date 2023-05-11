@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import util.SimulatedResource;
+import util.Variables;
 
 public class Marketplace {
 	
@@ -48,11 +49,15 @@ public class Marketplace {
 		ArrayList<Double> priceSortingList = new ArrayList<>();
 		ArrayList<SimulatedResource> returnList = new ArrayList<>();
 		int counter = 0;
+		int returnCount = 0;
 		
 		for(SimulatedResource r : contents) {
-			// macht faxxen der Kek
-			if(r.getName() == product && r.getValue() <= price + 1000) {
+			if(r.getName() == product && r.getValue() <= price) {
+				
 				possibleMatchesUnsorted.add(r);
+			}
+			if(r.getName() == product && r.getValue() > price && Variables.getOutput()) {
+				System.out.println(producer + " wanted to buy " + product + " for " + String.format("%.2f", r.getValue()) + " but the price was too high! Wanted Price: " + String.format("%.2f", price));
 			}
 		}
 		for(SimulatedResource r : possibleMatchesUnsorted) {
@@ -65,7 +70,6 @@ public class Marketplace {
 				possibleMatchesSorted.add(r);
 			}
 		}
-		// wenn nichts gekauft wird dann sagen warum z.B. preis is hoch oder keine Produkte vorhanden
 		for(SimulatedResource r : possibleMatchesSorted) {
 			int neededResourceCount = count;
 			if(neededResourceCount != 0) {
@@ -79,6 +83,12 @@ public class Marketplace {
 					r.subtractCount(r.getCount());
 				}
 			}
+		}
+		for(SimulatedResource r : returnList) {
+			returnCount += r.getCount();
+		}
+		if(returnCount == 0 && Variables.getOutput()) {
+			System.out.println(producer + " wanted to buy " + product + " but there are none available on the marketplace");
 		}
 		return returnList;
 	}

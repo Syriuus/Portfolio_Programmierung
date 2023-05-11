@@ -47,7 +47,8 @@ public class Konsument implements Runnable {
 	public void initPrices() {
 		int counter = 0;
 		for(String s : Variables.getContents()) {
-			prices.put(s, Variables.getValues()[counter]);
+			prices.put(s, Variables.getValues()[counter] + 50);
+			counter++;
 		}
 	}
 	private void updatePrices() {

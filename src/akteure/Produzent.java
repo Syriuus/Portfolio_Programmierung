@@ -118,6 +118,7 @@ public class Produzent implements Runnable {
 		int counter = 0;
 		for(String s : Variables.getContents()) {
 			prices.put(s, Variables.getValues()[counter]);
+			counter++;
 		}
 	}
 	private void updatePrices() {

@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -22,11 +23,15 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		
 		
+		input();
+		
+		Variables.validateVariables();
 		Variables.initRecipe();
 		
 		addProducer();
 		addSupplier();
 		addConsumer();
+		
 		int numberOfThreads = producerList.size() + supplierList.size() + consumerList.size();
 		
 		for(int k = 0; k < 10; k++) {
@@ -56,23 +61,14 @@ public class Main {
 			m.updatePrices();
 			
 			System.out.println("-------------------");
-			System.out.println("Marketplace inventory");
-			for(SimulatedResource r : m.getContents()) {
-				System.out.println(r);
+			if(Variables.getOutput()) {
+				System.out.println("Marketplace inventory");
+				for(SimulatedResource r : m.getContents()) {
+					System.out.println(r);
+				}
+				System.out.println("-------------------");
 			}
-			System.out.println("-------------------");
 		}
-		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	private static void addProducer() {
@@ -91,5 +87,20 @@ public class Main {
 		consumerList.add(new Konsument("Karin", "axe"));
 		consumerList.add(new Konsument("Dennis", "oven"));
 		consumerList.add(new Konsument("Bruno", "oven"));
+	}
+	private static void input() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Activate extended info mode? Y/N");
+		String scannerInput = scanner.nextLine();
+		if(scannerInput.equalsIgnoreCase("y") || scannerInput.equalsIgnoreCase("yes")) {
+			Variables.setOutput(true);
+		} else if(scannerInput.equalsIgnoreCase("n") || scannerInput.equalsIgnoreCase("no")) {
+			Variables.setOutput(false);
+		}
+		else {
+			System.out.println("Please enter a valid Option");
+			input();
+		}
+		scanner.close();
 	}
 }
