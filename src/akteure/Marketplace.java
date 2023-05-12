@@ -29,7 +29,7 @@ public class Marketplace {
 	public synchronized void put(String productName, String producer, Integer count) {  //Bearbeitet das Objekt mit dem Eintrag key und addet den Count
 		ArrayList<SimulatedResource> productList = new ArrayList<>();
 		for(SimulatedResource resource : contents) {
-			if(resource.getName() == productName) {
+			if(resource.getName().equalsIgnoreCase(productName)) {
 				productList.add(resource);
 			}
 		}
@@ -49,15 +49,14 @@ public class Marketplace {
 		ArrayList<Double> priceSortingList = new ArrayList<>();
 		ArrayList<SimulatedResource> returnList = new ArrayList<>();
 		int counter = 0;
-		int returnCount = 0;
 		
 		for(SimulatedResource r : contents) {
-			if(r.getName() == product && r.getValue() <= price) {
+			if(r.getName() == product && r.getValue() <= price && r.getCount() > 0) {
 				
 				possibleMatchesUnsorted.add(r);
 			}
-			if(r.getName() == product && r.getValue() > price && Variables.getOutput()) {
-				System.out.println(producer + " wanted to buy " + product + " for " + String.format("%.2f", r.getValue()) + " but the price was too high! Wanted Price: " + String.format("%.2f", price));
+			if(r.getName() == product && r.getValue() > price && Variables.getOutput() && r.getCount() > 0) {
+				System.out.println(producer + " wanted to buy " + product + " from " + r.getProducer() + " for " + String.format("%.2f", r.getValue()) + " but the price was too high! Wanted Price: " + String.format("%.2f", price));
 			}
 		}
 		for(SimulatedResource r : possibleMatchesUnsorted) {
@@ -65,17 +64,18 @@ public class Marketplace {
 		}
 		Collections.sort(priceSortingList);
 		for(SimulatedResource r : possibleMatchesUnsorted) {
-			if(r.getValue() == priceSortingList.get(counter)) {
+			if(r.getValue().equals(priceSortingList.get(counter))) {
 				counter++;
 				possibleMatchesSorted.add(r);
 			}
 		}
+		int neededResourceCount = count;
 		for(SimulatedResource r : possibleMatchesSorted) {
-			int neededResourceCount = count;
+			
 			if(neededResourceCount != 0) {
 				if(r.getCount() >= neededResourceCount) {
 					returnList.add(new SimulatedResource(r.getName(), r.getProducer(), neededResourceCount, r.getValue()));
-					neededResourceCount -= neededResourceCount;
+					neededResourceCount = 0;
 					r.subtractCount(neededResourceCount);
 				} else {
 					returnList.add(new SimulatedResource(r.getName(), r.getProducer(), r.getCount(), r.getValue()));
@@ -83,12 +83,6 @@ public class Marketplace {
 					r.subtractCount(r.getCount());
 				}
 			}
-		}
-		for(SimulatedResource r : returnList) {
-			returnCount += r.getCount();
-		}
-		if(returnCount == 0 && Variables.getOutput()) {
-			System.out.println(producer + " wanted to buy " + product + " but there are none available on the marketplace");
 		}
 		return returnList;
 	}

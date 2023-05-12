@@ -23,9 +23,8 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		
 		
-		input();
-		
 		Variables.validateVariables();
+		input();
 		Variables.initRecipe();
 		
 		addProducer();
@@ -34,7 +33,7 @@ public class Main {
 		
 		int numberOfThreads = producerList.size() + supplierList.size() + consumerList.size();
 		
-		for(int k = 0; k < 10; k++) {
+		for(int k = 0; k < 100; k++) {
 			ExecutorService threadPool = Executors.newFixedThreadPool(numberOfThreads);
 			
 			Produzent producerPool[] = new Produzent[producerList.size()];

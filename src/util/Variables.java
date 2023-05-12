@@ -70,6 +70,9 @@ public class Variables {
 		if(!contains(resources, recipe1) || !contains(resources, recipe2)) {
 			throw new FalseInputException("The components of the recipe are not valid resources");
 		}
+		if(!contains(contents, resources)) {
+			throw new FalseInputException("The listed resources are not valid components");
+		}
 	}
 	public static boolean getOutput() {
 		return output;

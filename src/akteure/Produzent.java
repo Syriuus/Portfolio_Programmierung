@@ -117,7 +117,7 @@ public class Produzent implements Runnable {
 	private void initPrices() {
 		int counter = 0;
 		for(String s : Variables.getContents()) {
-			prices.put(s, Variables.getValues()[counter]);
+			prices.put(s, Variables.getValues()[counter] * 1.10);
 			counter++;
 		}
 	}
